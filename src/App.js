@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import axios from "axios";
+import React, { useState } from "react";
 
 function App() {
+  const [prices, setPrice] = useState([]);
+  const [currentText, setCurrentText] = useState("Get Bitcoin Price");
+
+  const fetchBitcoinPrice = async () => {
+    try {
+      const result = await axios.get("");
+      var temp = prices;
+      temp.push(3000);
+      setPrice(temp);
+      setCurrentText("Refresh Bitcoin Price");
+    } catch (er) {
+      console.log(er);
+    }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{prices?.[0]}</h1>
+      {prices &&
+        prices.length > 1 &&
+        prices.map((price, index) => {
+          return <p key={index}>Privous Price {price}</p>;
+        })}
+      {console.log(prices)}
+      <button
+        className={
+          currentText === "Get Bitcoin Price" ? "btnBlue" : "btnPurple"
+        }
+        onClick={fetchBitcoinPrice}
+      >
+        {currentText}
+      </button>
     </div>
   );
 }
